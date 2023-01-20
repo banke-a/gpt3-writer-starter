@@ -4,6 +4,7 @@ import buildspaceLogo from '../assets/buildspace-logo.png';
 import { useState } from 'react';
 
 const Home = () => {
+  {/* function for user input*/}
   const [userInput, setUserInput] = useState('');
   const onUserChangedText = (event) => {
     console.log(event.target.value);
@@ -24,13 +25,14 @@ const Home = () => {
           </div>
         </div>
 <div className="prompt-container">
+  {/*user input area*/}
   <textarea
     placeholder="start typing here"
     className="prompt-box"
     value={userInput}
     onChange={onUserChangedText}
   />
-  {/* New code I added here */}
+  {/* button to generate medium post*/}
   <div className="prompt-buttons">
     <a className="generate-button" onClick={null}>
       <div className="generate">
