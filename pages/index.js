@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import buildspaceLogo from '../assets/buildspace-logo.png';
+import { useState } from 'react';
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
             <h2>insert your subtitle here</h2>
           </div>
         </div>
+        <textarea rows="5" cols="30"></textarea>
       </div>
       <div className="badge-container grow">
         <a
