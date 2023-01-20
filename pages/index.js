@@ -6,6 +6,29 @@ import { useState } from 'react';
 const Home = () => {
   {/* function for user input*/}
   const [userInput, setUserInput] = useState('');
+  {/* connect api to generate button */}
+  const [apiOutput, setApiOutput] = useState('')
+const [isGenerating, setIsGenerating] = useState(false)
+
+const callGenerateEndpoint = async () => {
+  setIsGenerating(true);
+  
+  console.log("Calling OpenAI...")
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userInput }),
+  });
+
+  const data = await response.json();
+  const { output } = data;
+  console.log("OpenAI replied...", output.text)
+
+  setApiOutput(`${output.text}`);
+  setIsGenerating(false);
+}
   const onUserChangedText = (event) => {
     console.log(event.target.value);
     setUserInput(event.target.value);
@@ -13,7 +36,7 @@ const Home = () => {
   return (
     <div className="root">
       <Head>
-        <title>GPT-3 Writer | buildspace</title>
+        <title>Medium Story Generator</title>
       </Head>
       <div className="container">
         <div className="header">
@@ -27,19 +50,34 @@ const Home = () => {
 <div className="prompt-container">
   {/*user input area*/}
   <textarea
-    placeholder="start typing here"
+    placeholder="How To Get Started On Blockchain"
     className="prompt-box"
     value={userInput}
     onChange={onUserChangedText}
   />
   {/* button to generate medium post*/}
   <div className="prompt-buttons">
-    <a className="generate-button" onClick={null}>
+    {/*add call generate endpoint to buton's onClick event*/}
+    <a className={isGenerating ? 'generate-button loading' : 'generate-button'}
+    onClick={callGenerateEndpoint}>
       <div className="generate">
-        <p>Generate</p>
+      {isGenerating ? <span className="loader"></span> : <p>Generate</p>}
       </div>
     </a>
   </div>
+  {/* add area for output from API */}
+  {apiOutput && (
+  <div className="output">
+    <div className="output-header-container">
+      <div className="output-header">
+        <h3>Output</h3>
+      </div>
+    </div>
+    <div className="output-content">
+      <p>{apiOutput}</p>
+    </div>
+  </div>
+)}
 </div>
       </div>
       <div className="badge-container grow">
